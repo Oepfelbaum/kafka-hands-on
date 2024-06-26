@@ -1,0 +1,165 @@
+version: '2'
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.3.2
+    restart: always
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_ADMIN_ENABLE_SERVER: 'false'
+
+  broker:
+    container_name: broker
+    image: confluentinc/cp-server:7.3.2
+    restart: always
+    hostname: broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+      - "9094:9094"
+      - "9101:9101"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092,PLAINTEXT_CLOUD://myVMsIP:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,PLAINTEXT_CLOUD:PLAINTEXT
+      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092
+      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+      CONFLUENT_METRICS_ENABLE: 'true'
+      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+
+  schema-registry:
+    container_name: schema-registry
+    image: confluentinc/cp-schema-registry:7.3.2
+    restart: always
+    hostname: schema-registry
+    depends_on:
+      - broker
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+
+  ksqldb-server:
+    container_name: ksqldb-server
+    image: confluentinc/cp-ksqldb-server:7.3.2
+    hostname: ksqldb-server
+    depends_on:
+      - broker
+    ports:
+      - "8088:8088"
+    environment:
+      KSQL_CONFIG_DIR: "/etc/ksql"
+      KSQL_BOOTSTRAP_SERVERS: "broker:29092"
+      KSQL_HOST_NAME: ksqldb-server
+      KSQL_LISTENERS: "http://0.0.0.0:8088"
+      KSQL_CACHE_MAX_BYTES_BUFFERING: 0
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+      KSQL_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
+      KSQL_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+
+  ksqldb-cli:
+    container_name: ksqldb-cli
+    image: confluentinc/cp-ksqldb-cli:7.3.2
+    depends_on:
+      - broker
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true
+
+  akhq:
+    container_name: akhq-ui
+    restart: always
+    image: tchiotludo/akhq:0.24.0
+    depends_on:
+      - broker
+      - schema-registry
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            docker-kafka-server:
+              properties:
+                bootstrap.servers: "broker:29092"
+              schema-registry:
+                url: "http://schema-registry:8081"
+    ports:
+      - 8080:8080
+    links:
+      - broker
+      - schema-registry
+
+  temp-001:
+    container_name: temp-001
+    image: ttt9912/sensorproducer:latest
+    restart: always
+    depends_on:
+      - broker
+      - schema-registry
+    environment:
+      SENSOR_TOPIC: sensor
+      SENSOR_ID: temp_001
+      SENSOR_TYPE: Temperature
+      SENSOR_UNIT: Celsius
+      SENSOR_MIN_VALUE: -25.0
+      SENSOR_MAX_VALUE: 120.0
+      SENSOR_INTERVAL_MS: 7000
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: broker:29092
+      SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+
+  temp-002:
+    container_name: temp-002
+    image: ttt9912/sensorproducer:latest
+    restart: always
+    depends_on:
+      - broker
+      - schema-registry
+    environment:
+      SENSOR_TOPIC: sensor
+      SENSOR_ID: temp_002
+      SENSOR_TYPE: Temperature
+      SENSOR_UNIT: Celsius
+      SENSOR_MIN_VALUE: -25.0
+      SENSOR_MAX_VALUE: 120.0
+      SENSOR_INTERVAL_MS: 10000
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: broker:29092
+      SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+
+  humidity-003:
+    container_name: humidity-003
+    image: ttt9912/sensorproducer:latest
+    restart: always
+    depends_on:
+      - broker
+      - schema-registry
+    environment:
+      SENSOR_TOPIC: sensor
+      SENSOR_ID: humidity_003
+      SENSOR_TYPE: Humidity
+      SENSOR_UNIT: Percent
+      SENSOR_MIN_VALUE: 0.0
+      SENSOR_MAX_VALUE: 100.0
+      SENSOR_INTERVAL_MS: 4000
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: broker:29092
+      SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
