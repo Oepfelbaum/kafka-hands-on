@@ -6,3 +6,12 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
     properties:
       schema.registry.url: http://localhost:8081
+
+sensor:
+  topic: sensor
+  id: demo-sensor
+  type: Temperature
+  unit: Celsius
+  min-value: -25.0
+  max-value: 120.0
+  interval-ms: 5000

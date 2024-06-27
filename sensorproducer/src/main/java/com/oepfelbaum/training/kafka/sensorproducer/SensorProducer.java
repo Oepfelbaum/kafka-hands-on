@@ -39,7 +39,7 @@ public class SensorProducer {
     @Scheduled(fixedDelayString = "${sensor.interval-ms}")
     public void sendSensorMeasurement() {
         final SensorMeasurement sensorMeasurement = createSensorMeasurement();
-        log.info("Sending message sensor={} topic={} value={}", SENSOR_ID, TOPIC, sensorMeasurement);
+        log.info("Sending message to topic={} message={}", TOPIC, sensorMeasurement);
         kafkaTemplate.send(TOPIC, SENSOR_ID, sensorMeasurement);
     }
 
