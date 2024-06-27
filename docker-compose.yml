@@ -112,7 +112,9 @@ services:
 
   temp-001:
     container_name: temp-001
-    image: ttt9912/sensorproducer:latest
+    build:
+      context: sensorproducer
+      dockerfile: Dockerfile
     restart: always
     depends_on:
       - broker
@@ -130,7 +132,9 @@ services:
 
   temp-002:
     container_name: temp-002
-    image: ttt9912/sensorproducer:latest
+    build:
+      context: sensorproducer
+      dockerfile: Dockerfile
     restart: always
     depends_on:
       - broker
@@ -148,7 +152,9 @@ services:
 
   humidity-003:
     container_name: humidity-003
-    image: ttt9912/sensorproducer:latest
+    build:
+      context: sensorproducer
+      dockerfile: Dockerfile
     restart: always
     depends_on:
       - broker
