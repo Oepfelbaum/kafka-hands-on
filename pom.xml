@@ -15,6 +15,9 @@
     <name>kafka-hands-on</name>
     <modules>
         <module>sensorproducer</module>
+        <module>stream01-first-stream</module>
+        <module>stream02-alert</module>
+        <module>stream03-join-metadata</module>
     </modules>
     <properties>
         <java.version>21</java.version>
@@ -38,6 +41,11 @@
             <dependency>
                 <groupId>io.confluent</groupId>
                 <artifactId>kafka-avro-serializer</artifactId>
+                <version>7.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.confluent</groupId>
+                <artifactId>kafka-streams-avro-serde</artifactId>
                 <version>7.2.1</version>
             </dependency>
         </dependencies>

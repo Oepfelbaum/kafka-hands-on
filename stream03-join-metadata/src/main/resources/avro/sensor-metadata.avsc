@@ -1,0 +1,18 @@
+{
+  "namespace": "com.oepfelbaum.training.kafka.sensorproducer",
+  "type": "record",
+  "name": "SensorMetadata",
+  "doc": "Sensor metadata",
+  "fields" : [
+    {
+      "name" : "sensor_id",
+      "type" : "string",
+      "doc"  : "ID which uniquely identifies the sensor across the plant"
+    },
+    {
+      "name" : "model",
+      "type" : "string",
+      "doc"  : "The model of the sensor"
+    }
+  ]
+}

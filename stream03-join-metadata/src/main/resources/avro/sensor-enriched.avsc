@@ -1,0 +1,33 @@
+{
+  "namespace": "com.oepfelbaum.training.kafka.sensorproducer",
+  "type": "record",
+  "name": "SensorMeasurementEnriched",
+  "doc": "Sensor measurement data point with metadata",
+  "fields" : [
+    {
+      "name" : "sensor_id",
+      "type" : "string",
+      "doc"  : "ID which uniquely identifies the sensor across the plant"
+    },
+    {
+      "name" : "type",
+      "type" : "string",
+      "doc"  : "The type of the sensor measurement"
+    },
+    {
+      "name" : "unit",
+      "type" : "string",
+      "doc"  : "The unit of the sensor measurement"
+    },
+    {
+      "name" : "value",
+      "type" : "double",
+      "doc"  : "The value of the sensor measurement"
+    },
+    {
+      "name" : "model",
+      "type" : "string",
+      "doc"  : "The model of the sensor"
+    }
+  ]
+}
