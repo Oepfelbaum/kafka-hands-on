@@ -21,3 +21,4 @@ In addition, required for Windows users:
 
 * [Cluster](cluster.md)
 * [Streams](streams.md)
+* [KSQL](ksql.md)
