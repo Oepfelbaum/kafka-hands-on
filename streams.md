@@ -22,13 +22,22 @@ http://localhost:8080/ui/docker-kafka-server/topic/sensor
 
 ## Excercise 1 - Create Temperature stream
 
-Navigate to the `streams` maven project
+![Setup](img/stream-1.png)
 
-### Excercise 2 - Create Alert stream
+* Create a stream to filter Temperature events
+  * Navigate to the maven
+    project [stream01-first-stream](stream01-first-stream/src/main/java/com/oepfelbaum/training/kafka)
 
-* Create a second stream to filter Temperature events with a value higher than 80 and write them to a new topic
+## Excercise 2 - Create Alert stream
+
+![Setup](img/stream-2.png)
+
+* Create a stream to filter Temperature events with a value higher than 80 and write them to a new topic
+  * Navigate to the maven project [stream02-alert](stream02-alert/src/main/java/com/oepfelbaum/training/kafka)
 
 ## Excercise 3 - Join with metadata
+
+![Setup](img/stream-3.png)
 
 Goals:
 
@@ -41,7 +50,7 @@ Preparation:
         * In the sidebar, select Schema Registry
         * Select Button 'Create a Subject'
         * Enter Subject `metadata`
-        * Enter schema from [sensor-metadata.avsc](streams/src/main/resources/avro/sensor-metadata.avsc)
+        * Enter schema from [sensor-metadata.avsc](stream03-join-metadata/src/main/resources/avro/sensor-metadata.avsc)
         * Click 'Create'
     * Create a new topic
         * Select Button 'Create a topic'
