@@ -25,15 +25,15 @@ http://localhost:8080/ui/docker-kafka-server/topic/sensor
 ![Setup](img/stream-1.png)
 
 * Create a stream to filter Temperature events
-  * Navigate to the maven
-    project [stream01-first-stream](stream01-first-stream/src/main/java/com/oepfelbaum/training/kafka)
+    * Navigate to the maven
+      project [stream01-first-stream](stream01-first-stream/src/main/java/com/oepfelbaum/training/kafka)
 
 ## Excercise 2 - Create Alert stream
 
 ![Setup](img/stream-2.png)
 
 * Create a stream to filter Temperature events with a value higher than 80 and write them to a new topic
-  * Navigate to the maven project [stream02-alert](stream02-alert/src/main/java/com/oepfelbaum/training/kafka)
+    * Navigate to the maven project [stream02-alert](stream02-alert/src/main/java/com/oepfelbaum/training/kafka)
 
 ## Excercise 3 - Join with metadata
 
@@ -79,19 +79,6 @@ Excercise:
 * Join the `sensor` stream with the `metadata` table using the keys
 * Expand `SensorMeasurement` with data from `metadata`
 * Write the result to a new Kafka Topic
-
-## Exercise 4 - Calculate the average value for a sensor over a 1min time frame
-
-Goals:
-
-* Understand Stateful Operations in Kafka Streams
-* Unterstand Windowing in Kafka Streams
-
-Exercise:
-
-* Use the template [Exercise3Stream.java](streams/src/main/java/com/oepfelbaum/training/kafka/Exercise03Stream.java) to
-  implement a stream
-* Filter by key to only get sensor values
 
 ## Notes
 

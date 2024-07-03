@@ -67,7 +67,7 @@ reset:
 SET 'auto.offset.reset' = 'earliest';
 ```
 
-## Excercise 2 - create a stream from another stream for Temperature and Humidity
+## Exercise 2 - create a stream from another stream for Temperature and Humidity
 
 Create separate streams for `Temperature` and `Humidity` sensors
 
@@ -91,7 +91,7 @@ SELECT * FROM temparature_sensors_stream emit changes;
 SELECT * FROM humidity_sensors_stream emit changes;
 ```
 
-## Excercise 3 - Count measurements by sensor (Aggregations)
+## Exercise 3 - Count measurements by sensor (Aggregations)
 
 ```
 SELECT sensor_id, COUNT(*) AS count 
@@ -102,8 +102,8 @@ EMIT CHANGES;
 Create a materialized view
 
 ```
-CREATE TABLE sensor_count_AS 
- AS 
+CREATE TABLE sensor_count_table 
+AS 
 SELECT sensor_id, COUNT(*) AS count 
 FROM sensor_stream GROUP BY sensor_id 
 EMIT CHANGES;
@@ -115,7 +115,7 @@ Query against the table
 SELECT * FROM sensor_count_table;
 ```
 
-## Excercise 4 - Show latest value by sensor
+## Exercise 4 - Show latest value by sensor
 
 ```
 CREATE TABLE sensor_latest_value_table AS 
@@ -128,7 +128,7 @@ EMIT CHANGES;
 SELECT * FROM sensor_latest_value_table;
 ```
 
-## Excercise 5 - Average sensor values with tumbling window
+## Exercise 5 - Average sensor values with tumbling window
 
 ```
 CREATE TABLE sensor_avg_table AS 
@@ -145,11 +145,7 @@ SELECT * FROM sensor_avg_table;
 ### Additional - with window retention
 
 ```
-DROP TABLE sensor_avg_table;
-```
-
-```
-CREATE TABLE sensor_avg_table AS 
+CREATE TABLE sensor_avg_table_windowed AS 
 SELECT sensor_id, AVG(value) AS avg FROM sensor_stream 
 WINDOW TUMBLING (SIZE 60 SECONDS, RETENTION 2 MINUTES, GRACE PERIOD 0 SECONDS) 
 GROUP BY sensor_id 
@@ -157,5 +153,5 @@ EMIT CHANGES;
 ```
 
 ```
-SELECT * FROM sensor_avg_table;
+SELECT * FROM sensor_avg_table_windowed;
 ```
