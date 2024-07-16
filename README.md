@@ -1,4 +1,38 @@
-# kafka-hands-on
+# Hands-On Kafka Workshop by Oepfelbaum IT Management AG
+
+Welcome to the Hands-On Kafka Workshop provided by [Oepfelbaum IT Management AG](https://www.oepfelbaum.com/). This repository contains all the necessary materials for the workshop participants to set up and interact with a Kafka cluster, as well as to perform exercises using Kafka Streams and KSQL.
+
+## Workshop Topics
+
+### Setting Up a Kafka Cluster and interacting with Kafka using the CLI
+The first part covers the following topics:
+- Running a Kafka cluster using Docker
+- Create topics 
+- Produce and consume messages
+- Partitioning and consumer groups
+- Log compaction
+
+Follow along [here](cluster.md).
+
+
+### Exercises Using Kafka Streams
+After learning about the Kafka basics in the first part, we are developing our own Java applications using Kafka Streams:
+- Implementing a simple Kafka streams application
+- Creating and filtering of streams
+- Joining topics
+- Kafka time and window calculation
+
+The instructions for this sections are [here](streams.md).
+
+
+### Exercises Using KSQL
+- Initial setup using Docker compose
+- Exploring KSQL using the CLI
+- Creating Streams
+- Aggregations and materialized views:
+- Windowed aggregations
+
+You can find the details instructions [here](ksql.md).
 
 ## Prerequisites
 
@@ -17,8 +51,7 @@ In addition, required for Windows users:
 * Ubuntu 20.04 for WSL (recommended, other distributions might work too)
 * Windows Terminal (optional, but very nice)
 
-## Contents
+## Contact
+For any questions or feedback related to the workshop, please contact Oepfelbaum IT Management AG at info@oepfelbaum.com.
 
-* [Cluster](cluster.md)
-* [Streams](streams.md)
-* [KSQL](ksql.md)
+Enjoy the workshop, and happy learning!
