@@ -4,6 +4,8 @@ Welcome to the Hands-On Kafka Workshop provided by [Oepfelbaum IT Management AG]
 repository contains all the necessary materials for the workshop participants to set up and interact with a Kafka
 cluster, as well as to perform exercises using Kafka Streams and KSQL.
 
+All solutions can be found on this branch: `origin/solutions`
+
 ## Workshop Topics
 
 ### Setting Up a Kafka Cluster and interacting with Kafka using the CLI
