@@ -79,26 +79,3 @@ Excercise:
 * Join the `sensor` stream with the `metadata` table using the keys
 * Expand `SensorMeasurement` with data from `metadata`
 * Write the result to a new Kafka Topic
-
-## Exercise 4 - Calculate the average value for a sensor over a 1min time frame
-
-Goals:
-
-* Understand Stateful Operations in Kafka Streams
-* Unterstand Windowing in Kafka Streams
-
-Exercise:
-
-* Use the template [Exercise3Stream.java](streams/src/main/java/com/oepfelbaum/training/kafka/Exercise03Stream.java) to
-  implement a stream
-* Filter by key to only get sensor values
-
-## Notes
-
-* Multiple KStreams in one Spring Boot
-  Application: https://ncodify.medium.com/multiple-kafka-stream-configurations-in-a-spring-boot-application-9ac342ed67d8
-* Exception handling
-    * Deserialization exception handler (eg. message not corresponding to schema)
-        * Default: shutdown stream app
-        * Use `default.deserialization.exception.handler` property to set error handler. Use built in (
-          eg. `LogAndContinueExceptionHandler`) or provide custom handler.
